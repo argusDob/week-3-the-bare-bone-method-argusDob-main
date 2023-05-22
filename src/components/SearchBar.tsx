@@ -2,12 +2,25 @@ import React from "react";
 import styled from "styled-components";
 import backgroundImage from "../assets/search-header.png";
 
+import InputText from "./InputText";
+
+
 export default function SearchBar() {
   return (
     <SearchBarContainer>
       <SearchBarTitle>Welcome.</SearchBarTitle>
       <SearchBarSubTitle>
         Millions of movies, TV shows and people to discover. Explore now.
+        <InputText
+          type="string"
+          id="string"
+          name="string"
+          label="string"
+          required={true}
+          minLength={8}
+          maxLength={100}
+          size={100}
+        />
       </SearchBarSubTitle>
     </SearchBarContainer>
   );
