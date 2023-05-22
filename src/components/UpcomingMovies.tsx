@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { SectionHeading, TrendingContainer } from "./styled/GridFourCol"
+import { useEffect, useState } from "react";
 
 import movieApiClient from "../utils/movieApiClient";
 import { ApiError, isApiError, Movie } from "../utils/typesApi";
-import SimpleMovieCard from "./SimpleMovieCard";
+
+import MoviesCardGrid from "./MoviesCardGrid";
 
 export default function TrendingNow() {
-  const [movieListTrending, setMovieListTrending] = useState<Movie[] | null>();
+  const [movieListTrending, setMovieListTrending] = useState<Movie[]>([]);
+
   const [error, setFetchError] = useState<ApiError | null>();
 
   useEffect(() => {
@@ -21,15 +22,14 @@ export default function TrendingNow() {
 
   return (
     <div>
-      <SectionHeading>Upcoming Movies</SectionHeading>
-      <TrendingContainer>
-        {!error &&
-          movieListTrending?.map((mov) => (
-            <SimpleMovieCard movieData={mov} key={mov.id} />
-          ))}
-      </TrendingContainer>
-      <p>{error?.message}</p>
+      <div>
+        <MoviesCardGrid
+          headingText="Upcoming Movies"
+          movieList={movieListTrending}
+          error={error}
+        ></MoviesCardGrid>
+        <p>{error?.message}</p>
+      </div>
     </div>
   );
 }
-

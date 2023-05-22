@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { SectionHeading, TrendingContainer } from "./styled/GridFourCol"
+import { useEffect, useState } from "react";
 
 import movieApiClient from "../utils/movieApiClient";
 import { ApiError, isApiError, Movie } from "../utils/typesApi";
-import SimpleMovieCard from "./SimpleMovieCard";
+
+import MoviesCardGrid from "./MoviesCardGrid";
 
 export default function TrendingNow() {
-  const [movieListTrending, setMovieListTrending] = useState<Movie[] | null>();
+  const [movieListTrending, setMovieListTrending] = useState<Movie[]>([]);
+
   const [error, setFetchError] = useState<ApiError | null>();
 
   useEffect(() => {
@@ -21,29 +22,12 @@ export default function TrendingNow() {
 
   return (
     <div>
-      <SectionHeading>Trending Now</SectionHeading>
-      <TrendingContainer>
-        {!error &&
-          movieListTrending?.map((mov) => (
-            <SimpleMovieCard movieData={mov} key={mov.id} />
-          ))}
-      </TrendingContainer>
+      <MoviesCardGrid
+        headingText="Tredings"
+        movieList={movieListTrending}
+        error={error}
+      ></MoviesCardGrid>
       <p>{error?.message}</p>
     </div>
   );
 }
-
-// const SectionHeading = styled.h1`
-//   width: 100%;
-//   text-align: left;
-//   padding-left: 10px;
-// `;
-
-// const TrendingContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   flex-wrap: wrap;
-//   justify-content: space-between;
-//   padding-left: 10px;
-//   padding-right: 10px;
-// `;
