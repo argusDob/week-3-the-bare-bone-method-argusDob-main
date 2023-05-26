@@ -1,9 +1,8 @@
-
 interface onInputChange {
   value: string;
 }
 
-interface InpuText {
+interface InputTextProps {
   type: string;
   id: string;
   name: string;
@@ -15,7 +14,7 @@ interface InpuText {
   onInputChange: (searchInput: onInputChange) => void;
 }
 
-export default function InpuText({
+export default function InputText({
   type,
   id,
   name,
@@ -25,7 +24,7 @@ export default function InpuText({
   maxLength,
   size,
   onInputChange,
-}: InpuText) {
+}: InputTextProps) {
   const handleChange = (event: { target: { value: string } }) => {
     let value = event.target.value;
     onInputChange({ value });
@@ -48,4 +47,3 @@ export default function InpuText({
     </div>
   );
 }
-

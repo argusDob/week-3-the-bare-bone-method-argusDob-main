@@ -76,7 +76,7 @@ const SearchBarContainer = styled.div`
 
 const SearchBarTitle = styled.h2`
   font-size: 3em;
-  font-weight: 700;§
+  font-weight: 700;
   line-height: 1;
   color: white;
   margin-bottom: 10px;

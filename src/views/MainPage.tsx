@@ -20,19 +20,20 @@ export default function MainPage() {
   const [searchInput, setSearchInputValue] = useState<string>("star wars");
   const [error, setFetchError] = useState<ApiError | null>();
 
-
   useEffect(() => {
     getMovies(searchInput, currentPage);
-  },[searchInput, currentPage]);
+  }, [searchInput, currentPage]);
 
   const handleInputChange = (searchInputValue: onInputChange | undefined) => {
-    if (typeof searchInputValue !== "undefined" && searchInputValue.value !== "") {
-      const first_page = 1
+    if (
+      typeof searchInputValue !== "undefined" &&
+      searchInputValue.value !== ""
+    ) {
+      const first_page = 1;
       setSearchInputValue(searchInputValue.value);
       getMovies(searchInputValue.value, first_page);
     }
   };
-
 
   const handlePaginationData = (currentPage: number) => {
     if (currentPage < 0 || currentPage > totalPages) return;
@@ -50,7 +51,7 @@ export default function MainPage() {
     } else {
       setMovieList(response.results);
       setTotalPages(response.total_pages);
-      setCurrentPage(response.page)
+      setCurrentPage(response.page);
     }
   }
 
@@ -58,7 +59,13 @@ export default function MainPage() {
     <PageContainer>
       <SearchBar onInputChange={handleInputChange} />
       <MovieList error={error} moviesList={movieList} />
-      {<Pagination total_pages={totalPages} current_page={currentPage} onClick={handlePaginationData} /> }
+
+      <Pagination
+        total_pages={totalPages}
+        current_page={currentPage}
+        setCurrentPage={handlePaginationData}
+      />
+
       <TrendingNow />
       <UpcomingMovies />
     </PageContainer>
