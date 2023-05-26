@@ -33,13 +33,6 @@ export default function MainPage() {
     }
   };
 
-
-  const handlePaginationData = (currentPage: number) => {
-    if (currentPage < 0 || currentPage > totalPages) return;
-    setCurrentPage(currentPage);
-    getMovies(searchInput, currentPage);
-  };
-
   async function getMovies(searchValue: string, currentPage: number) {
     const response = await movieApiClient.getMovieList(
       searchValue,
@@ -58,7 +51,7 @@ export default function MainPage() {
     <PageContainer>
       <SearchBar onInputChange={handleInputChange} />
       <MovieList error={error} moviesList={movieList} />
-      {<Pagination total_pages={totalPages} current_page={currentPage} onClick={handlePaginationData} /> }
+      {<Pagination total_pages={totalPages} current_page={currentPage} setCurrentPage={setCurrentPage} /> }
       <TrendingNow />
       <UpcomingMovies />
     </PageContainer>
