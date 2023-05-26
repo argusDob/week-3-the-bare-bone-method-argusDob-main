@@ -61,10 +61,14 @@ class ApiClient {
     }
   }
 
-  async getMovieList(): Promise<ApiResponse<Movie> | ApiError> {
+  async getMovieList(
+    searchValue: string,
+    selectedPage: number
+  ): Promise<ApiResponse<Movie> | ApiError> {
+    const encodedSearchValue = encodeURIComponent(searchValue);
     try {
       const response = await fetch(
-        `${apiUrl}/search/movie?query=star%20wars&api_key=${this.apiKey}`,
+        `${apiUrl}/search/movie?query=${encodedSearchValue}&page=${selectedPage}&api_key=${this.apiKey}`,
         {
           headers: {
             "Content-type": "application/json",
@@ -72,7 +76,6 @@ class ApiClient {
         }
       );
       const data: ApiResponse<Movie> = await response.json();
-
       return data;
     } catch (err) {
       console.error(err);
@@ -123,7 +126,6 @@ class ApiClient {
         },
       });
       const data: ApiResponse<Movie> = await response.json();
-      console.log(data);
       return data;
     } catch (err) {
       console.error(err);

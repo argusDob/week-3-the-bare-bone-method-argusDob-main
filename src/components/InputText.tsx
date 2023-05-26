@@ -1,4 +1,8 @@
 
+interface onInputChange {
+  value: string;
+}
+
 interface InpuText {
   type: string;
   id: string;
@@ -8,21 +12,40 @@ interface InpuText {
   minLength: number;
   maxLength: number;
   size: number;
+  onInputChange: (searchInput: onInputChange) => void;
 }
 
-export default function InpuText(props: InpuText) {
+export default function InpuText({
+  type,
+  id,
+  name,
+  label,
+  required,
+  minLength,
+  maxLength,
+  size,
+  onInputChange,
+}: InpuText) {
+  const handleChange = (event: { target: { value: string } }) => {
+    let value = event.target.value;
+    onInputChange({ value });
+  };
+
   return (
     <div>
-      <label htmlFor="name">{props.label}</label>
+      <label htmlFor={name}>{label}</label>
       <input
-        type={props.type}
-        id={props.id}
-        name={props.name}
-        required={props.required}
-        minLength={props.minLength}
-        maxLength={props.maxLength}
-        size={props.size}
+        type={type}
+        id={id}
+        name={name}
+        required={required}
+        minLength={minLength}
+        maxLength={maxLength}
+        size={size}
+        autoComplete="on"
+        onChange={handleChange}
       ></input>
     </div>
   );
 }
+

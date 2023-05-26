@@ -1,27 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import backgroundImage from "../assets/search-header.png";
 
 import InputText from "./InputText";
+import PrimaryButton from "./PrimaryButton";
 
+interface onInputChange {
+  value: string;
+}
 
-export default function SearchBar() {
+interface SearchBarProps {
+  onInputChange: (searchInput: onInputChange | undefined) => void;
+  onClick?: (searchInput: onInputChange | undefined) => void;
+}
+
+export default function SearchBar({ onInputChange }: SearchBarProps) {
+  const [inputValue, setInputValue] = useState<onInputChange>({ value: "" });
+
+  useEffect(() => {
+    handleInputChange(inputValue);
+  }, []);
+
+  const fnHandleSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+  };
+
+  const handleInputChange = (searchInput: onInputChange) => {
+    setInputValue(searchInput);
+  };
+
+  const onSearchSubmit = () => {
+    console.log("searchBar", inputValue);
+
+    onInputChange(inputValue);
+  };
+
   return (
     <SearchBarContainer>
       <SearchBarTitle>Welcome.</SearchBarTitle>
       <SearchBarSubTitle>
         Millions of movies, TV shows and people to discover. Explore now.
-        <InputText
-          type="string"
-          id="string"
-          name="string"
-          label="string"
-          required={true}
-          minLength={8}
-          maxLength={100}
-          size={100}
-        />
       </SearchBarSubTitle>
+      <form onSubmit={fnHandleSubmit}>
+        <SearchForm>
+          <InputText
+            type="text"
+            id="text"
+            name="Search"
+            label="Search: "
+            required={true}
+            minLength={8}
+            maxLength={100}
+            size={100}
+            onInputChange={handleInputChange}
+          />
+          <PrimaryButton onClick={onSearchSubmit} text="Submit" />
+        </SearchForm>
+      </form>
     </SearchBarContainer>
   );
 }
@@ -41,7 +76,7 @@ const SearchBarContainer = styled.div`
 
 const SearchBarTitle = styled.h2`
   font-size: 3em;
-  font-weight: 700;
+  font-weight: 700;§
   line-height: 1;
   color: white;
   margin-bottom: 10px;
@@ -53,6 +88,10 @@ const SearchBarSubTitle = styled.h3`
   margin: 0;
   color: white;
   margin-bottom: 40px;
+`;
+
+const SearchForm = styled.div`
+  display: flex;
 `;
 
 // NOTE: You can use the components bellow to go quicker

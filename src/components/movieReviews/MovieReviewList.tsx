@@ -5,13 +5,11 @@ import { ApiError, isApiError, MovieReview } from "../../utils/typesApi";
 import MovieReviewCard from "./MovieReviewCard";
 
 export default function MovieReviewList({ movieId }: { movieId: string }) {
-  console.log(movieId)
   const [reviewList, setReviewList] = useState<MovieReview[] | null>();
   const [error, setFetchError] = useState<ApiError | null>();
 
   useEffect(() => {
     movieApiClient.getMovieReviewList(movieId).then((data) => {
-      console.log("useEffect")
       if (isApiError(data)) {
         setFetchError(error);
       } else {

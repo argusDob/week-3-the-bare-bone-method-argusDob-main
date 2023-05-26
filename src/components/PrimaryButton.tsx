@@ -1,7 +1,21 @@
-export default function PrimaryButton(text: string) {
+interface PrimaryButton {
+  text: string;
+  disabled?: boolean;
+  onClick: () => void;
+}
+export default function PrimaryButton({
+  text,
+  disabled,
+  onClick,
+}: PrimaryButton) {
+  const handleClick = () => {
+    onClick();
+  };
   return (
     <div>
-      <button>{text}</button>
+      <button disabled={disabled} onClick={handleClick}>
+        {text}
+      </button>
     </div>
   );
 }
