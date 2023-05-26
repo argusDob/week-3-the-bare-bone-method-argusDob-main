@@ -5,85 +5,36 @@ import styled from "styled-components";
 interface PaginationProps {
   total_pages: number;
   current_page: number;
-  onClick: (counter: number) => void;
+  setCurrentPage: (counter: number) => void;
 }
 
 export default function Pagination({
-  onClick,
+  setCurrentPage,
   total_pages,
   current_page,
 }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState<number>(current_page);
-  const [isNextBtnDisabled, setNextButtonState] = useState<boolean>(false);
-  const [isPreviousBtnDisabled, setPreviousButtonState] =
-    useState<boolean>(false);
-
-  useEffect(() => {
-    previousButtonState();
-    setCurrentPage(current_page);
-  },[]);
-
-  function goNext() {
-    let myCounter = currentPage + 1;
-    handleButtons(myCounter);
-  }
-
-  function goPrevious() {
-    if (currentPage !== 0) {
-      let myCounter = currentPage - 1;
-      handleButtons(myCounter);
-    }
-  }
-
-  function goFirst() {
-    const firstPage = 1;
-    onClick(firstPage);
-    handleButtons(firstPage);
-  }
-
-  function goLast() {
-    const lastPage = total_pages;
-    onClick(lastPage);
-    handleButtons(lastPage);
-  }
-
-  function nextButtonState(myCounter: number) {
-    setNextButtonState(myCounter === total_pages);
-  }
-
-  function previousButtonState() {
-    setPreviousButtonState(currentPage === 1);
-  }
-
-  function handleButtons(pageNumber: number) {
-    setCurrentPage(pageNumber);
-    onClick(pageNumber);
-    previousButtonState();
-    nextButtonState(pageNumber);
-  }
-
   return (
     <div>
       <PaginationContainer>
         <PrimaryButton
-          onClick={goFirst}
-          disabled={isPreviousBtnDisabled}
           text="First"
+          onClick={() => setCurrentPage(1)}
+          disabled={current_page === 1}
         />
         <PrimaryButton
-          disabled={isPreviousBtnDisabled}
-          onClick={goPrevious}
           text="Previous"
+          onClick={() => setCurrentPage(current_page - 1)}
+          disabled={current_page === 1}
         />
-        <h1>{currentPage}</h1>
+        <h1>{current_page}</h1>
         <PrimaryButton
-          disabled={isNextBtnDisabled}
-          onClick={goNext}
+          onClick={() => setCurrentPage(current_page + 1)}
+          disabled={current_page === total_pages}
           text="Next"
         />
         <PrimaryButton
-          disabled={isNextBtnDisabled}
-          onClick={goLast}
+          disabled={current_page === total_pages}
+          onClick={() => setCurrentPage(total_pages)}
           text="Last"
         />
       </PaginationContainer>
