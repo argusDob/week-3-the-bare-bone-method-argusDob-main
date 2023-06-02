@@ -9,6 +9,8 @@ import UpcomingMovies from "../components/UpcomingMovies";
 import movieApiClient from "../utils/movieApiClient";
 import { ApiError, isApiError, Movie, ApiResponse } from "../utils/typesApi";
 
+import { useThemeContext } from "../context/Theme";
+
 interface onInputChange {
   value: string;
 }
@@ -20,14 +22,18 @@ export default function MainPage() {
   const [searchInput, setSearchInputValue] = useState<string>("star wars");
   const [error, setFetchError] = useState<ApiError | null>();
 
+  const theme = useThemeContext();
 
   useEffect(() => {
     getMovies(searchInput, currentPage);
-  },[searchInput, currentPage]);
+  }, [searchInput, currentPage]);
 
   const handleInputChange = (searchInputValue: onInputChange | undefined) => {
-    if (typeof searchInputValue !== "undefined" && searchInputValue.value !== "") {
-      const first_page = 1
+    if (
+      typeof searchInputValue !== "undefined" &&
+      searchInputValue.value !== ""
+    ) {
+      const first_page = 1;
       setSearchInputValue(searchInputValue.value);
       getMovies(searchInputValue.value, first_page);
     }
@@ -43,15 +49,21 @@ export default function MainPage() {
     } else {
       setMovieList(response.results);
       setTotalPages(response.total_pages);
-      setCurrentPage(response.page)
+      setCurrentPage(response.page);
     }
   }
 
   return (
     <PageContainer>
       <SearchBar onInputChange={handleInputChange} />
-      <MovieList error={error} moviesList={movieList} />
-      {<Pagination total_pages={totalPages} current_page={currentPage} setCurrentPage={setCurrentPage} /> }
+      <MovieList theme={theme} error={error} moviesList={movieList} />
+      {
+        <Pagination
+          total_pages={totalPages}
+          current_page={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      }
       <TrendingNow />
       <UpcomingMovies />
     </PageContainer>

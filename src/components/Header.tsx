@@ -1,11 +1,21 @@
-import React from "react";
 import styled from "styled-components";
+import ToogleButton from "./ToogleButton";
+import { useThemeContext } from "../context/Theme";
+
 
 export default function Header() {
+
+  const {theme, toggleTheme} = useThemeContext()
+
+  function handleToogleButton() {
+    toggleTheme(theme)
+  }
+
   return (
     <HeaderContainer>
       <HeaderWrapper>
         <h2>The Movie App</h2>
+        <ToogleButton onClick={handleToogleButton} />
       </HeaderWrapper>
     </HeaderContainer>
   );
