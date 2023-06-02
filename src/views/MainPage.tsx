@@ -9,6 +9,8 @@ import UpcomingMovies from "../components/UpcomingMovies";
 import movieApiClient from "../utils/movieApiClient";
 import { ApiError, isApiError, Movie, ApiResponse } from "../utils/typesApi";
 
+import { useThemeContext } from "../context/Theme";
+
 interface onInputChange {
   value: string;
 }
@@ -20,11 +22,19 @@ export default function MainPage() {
   const [searchInput, setSearchInputValue] = useState<string>("star wars");
   const [error, setFetchError] = useState<ApiError | null>();
 
+  const theme = useThemeContext();
+
   useEffect(() => {
     getMovies(searchInput, currentPage);
   }, [searchInput, currentPage]);
+  }, [searchInput, currentPage]);
 
   const handleInputChange = (searchInputValue: onInputChange | undefined) => {
+    if (
+      typeof searchInputValue !== "undefined" &&
+      searchInputValue.value !== ""
+    ) {
+      const first_page = 1;
     if (
       typeof searchInputValue !== "undefined" &&
       searchInputValue.value !== ""

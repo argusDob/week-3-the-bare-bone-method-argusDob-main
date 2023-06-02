@@ -30,8 +30,6 @@ export default function SearchBar({ onInputChange }: SearchBarProps) {
   };
 
   const onSearchSubmit = () => {
-    console.log("searchBar", inputValue);
-
     onInputChange(inputValue);
   };
 

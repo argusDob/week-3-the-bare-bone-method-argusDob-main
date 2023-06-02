@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Movie, ApiError } from "../utils/typesApi";
 import MovieCard from "./MovieCard";
 
-export default function MovieList({ moviesList, error }: any) {
+export default function MovieList({ theme, moviesList, error }: any) {
   return (
     <MovieListContainer>
       <MovieCardListWrapper>
@@ -21,6 +21,7 @@ const MovieCardListWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  background:red
 `;
 
 const MovieListContainer = styled.div`

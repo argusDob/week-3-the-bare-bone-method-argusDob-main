@@ -13,6 +13,8 @@ export default function Pagination({
   total_pages,
   current_page,
 }: PaginationProps) {
+
+  
   return (
     <div>
       <PaginationContainer>
