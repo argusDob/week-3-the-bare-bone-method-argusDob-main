@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import MainPage from "./views/MainPage";
 import MoviePage from "./views/MoviePage";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
-import { ThemeProvider, useThemeContext } from "./context/Theme";
-
-interface Theme {
-  foreground: string;
-  background: string;
-  background_secondary: string;
-}
+import { AppThemeContext, Theme, theme_colors } from "./context/Theme";
 
 export default function App() {
-  const [headerToogleButtonValue, setHeaderToogleButtonValue] =
-    useState<Theme>(theme_colors.light);
-
-  const theme = useThemeContext({
-    theme: headerToogleButtonValue,
-    toggleThem: setHeaderToogleButtonValue
-  });
-
-  function handleToogle(theme: Theme, toogleButtonStatus: boolean) {
-    setHeaderToogleButtonValue(toogleButtonStatus);
-    console.log(theme);
-  }
+  // here we keep the state
+  const [currentTheme, setCurrentTheme] = useState<Theme>(theme_colors.light);
 
   return (
-    <ThemeProvider.Provider themeData={headerToogleButtonValue}>
+    <AppThemeContext.Provider // we use the provider to broadcast this state
+      value={{
+        theme: currentTheme,
+        toggleTheme: () => {
+          if (currentTheme.name === "light") {
+            setCurrentTheme(theme_colors.dark);
+          } else {
+            setCurrentTheme(theme_colors.light);
+          }
+          console.log("theme updated");
+        },
+      }}
+    >
       <AppContainer>
-        <Header onToogleChange={handleToogle}></Header>
+        <Header></Header>
         <Router>
           <Routes>
             <Route path="/" element={<MainPage />} />
@@ -40,7 +37,7 @@ export default function App() {
         </Router>
         <Footer></Footer>
       </AppContainer>
-    </ThemeProvider.Provider>
+    </AppThemeContext.Provider>
   );
 }
 

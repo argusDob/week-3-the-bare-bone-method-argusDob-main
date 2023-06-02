@@ -7,7 +7,6 @@ import MoviesCardGrid from "./MoviesCardGrid";
 
 export default function TrendingNow() {
   const [movieListTrending, setMovieListTrending] = useState<Movie[]>([]);
-
   const [error, setFetchError] = useState<ApiError | null>();
 
   useEffect(() => {

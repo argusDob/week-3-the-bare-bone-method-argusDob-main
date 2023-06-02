@@ -21,7 +21,6 @@ const MovieCardListWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  background:red
 `;
 
 const MovieListContainer = styled.div`

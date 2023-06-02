@@ -6,46 +6,34 @@ import {
   useState,
 } from "react";
 
-const ThemeContext = createContext<any>({});
-
-const theme_colors = {
-   light: {
+export const theme_colors = {
+  light: {
+    name: "light",
     foreground: "#2d3436",
     background: "#dfe6e9",
     background_secondary: "#ffffff",
   },
   dark: {
+    name: "dark",
     foreground: "#2d3436",
     background: "#2d3436",
     background_secondary: "#636e72",
   },
 };
 
-const ThemeProvider = ({
-  children,
-  themeData,
-}: {
-  children: ReactNode;
-  themeData: any;
-}) => {
-  const [theme, setTheme] = useState<any>(theme_colors);
+export interface AppThemeContextArgs {
+  theme: Theme;
+  toggleTheme: () => void;
+}
 
-  useEffect(() => {
-    switchTheme();
-  }, [themeData]);
+export const AppThemeContext = createContext<AppThemeContextArgs>({
+  theme: theme_colors.light,
+  toggleTheme: () => {},
+});
 
-  const switchTheme = () => {
-    setTheme(themeData ? theme_colors.dark : theme_colors.light);
-  };
-
-  return (
-    <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
-  );
+export type Theme = {
+  name: string;
+  foreground: string;
+  background: string;
+  background_secondary: string;
 };
-
-const useThemeContext = () => {
-  const theme = useContext(ThemeContext);
-  return theme;
-};
-
-export { useThemeContext, ThemeProvider };

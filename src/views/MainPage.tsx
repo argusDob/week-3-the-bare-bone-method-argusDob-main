@@ -7,49 +7,19 @@ import TrendingNow from "../components/TrendingNow";
 import UpcomingMovies from "../components/UpcomingMovies";
 
 import movieApiClient from "../utils/movieApiClient";
-import { ApiError, isApiError, Movie, ApiResponse } from "../utils/typesApi";
 
-import { useThemeContext } from "../context/Theme";
+import { ApiError, isApiError, Movie } from "../utils/typesApi";
 
 interface onInputChange {
   value: string;
 }
 
-export default function MainPage() {
+function MainPage() {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchInput, setSearchInputValue] = useState<string>("star wars");
   const [error, setFetchError] = useState<ApiError | null>();
-
-  const theme = useThemeContext();
-
-  useEffect(() => {
-    getMovies(searchInput, currentPage);
-  }, [searchInput, currentPage]);
-  }, [searchInput, currentPage]);
-
-  const handleInputChange = (searchInputValue: onInputChange | undefined) => {
-    if (
-      typeof searchInputValue !== "undefined" &&
-      searchInputValue.value !== ""
-    ) {
-      const first_page = 1;
-    if (
-      typeof searchInputValue !== "undefined" &&
-      searchInputValue.value !== ""
-    ) {
-      const first_page = 1;
-      setSearchInputValue(searchInputValue.value);
-      getMovies(searchInputValue.value, first_page);
-    }
-  };
-
-  const handlePaginationData = (currentPage: number) => {
-    if (currentPage < 0 || currentPage > totalPages) return;
-    setCurrentPage(currentPage);
-    getMovies(searchInput, currentPage);
-  };
 
   async function getMovies(searchValue: string, currentPage: number) {
     const response = await movieApiClient.getMovieList(
@@ -64,6 +34,33 @@ export default function MainPage() {
       setCurrentPage(response.page);
     }
   }
+
+  useEffect(() => {
+    getMovies(searchInput, currentPage);
+  }, [searchInput, currentPage]);
+
+  const handleInputChange = (searchInputValue: onInputChange | undefined) => {
+    if (
+      typeof searchInputValue !== "undefined" &&
+      searchInputValue.value !== ""
+    ) {
+      const first_page = 1;
+      if (
+        typeof searchInputValue !== "undefined" &&
+        searchInputValue.value !== ""
+      ) {
+        const first_page = 1;
+        setSearchInputValue(searchInputValue.value);
+        getMovies(searchInputValue.value, first_page);
+      }
+    }
+  };
+
+  const handlePaginationData = (currentPage: number) => {
+    if (currentPage < 0 || currentPage > totalPages) return;
+    setCurrentPage(currentPage);
+    getMovies(searchInput, currentPage);
+  };
 
   return (
     <PageContainer>
@@ -81,3 +78,5 @@ export default function MainPage() {
     </PageContainer>
   );
 }
+
+export default MainPage;

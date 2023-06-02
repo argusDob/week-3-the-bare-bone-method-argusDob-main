@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import _ from "lodash";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import movieApiClient from "../utils/movieApiClient";
 import { Movie } from "../utils/typesApi";
+import { AppThemeContext, Theme } from "../context/Theme";
 
 interface MovieCardProps {
   movie: Movie;
@@ -13,6 +14,7 @@ interface MovieCardProps {
 
 export default function MovieCard({ movie }: MovieCardProps) {
   const navigate = useNavigate();
+  const { theme } = useContext(AppThemeContext);
   const onCardClick = () => {
     navigate(`/movie/${movie.id}`);
   };
@@ -26,6 +28,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
     <MovieCardContainer
       data-testid={`movie-card-container-${movie.id}`}
       onClick={onCardClick}
+      theme={theme}
     >
       <div style={{ display: "flex" }}>
         <img
@@ -65,7 +68,11 @@ const MoviePlot = styled.p`
   text-overflow: ellipsis;
 `;
 
-const MovieCardContainer = styled.div`
+interface MovieCardContainerProps {
+  theme: Theme;
+}
+
+const MovieCardContainer = styled.div<MovieCardContainerProps>`
   display: flex;
   width: calc(50% - 20px);
   border: solid 1px #b2bec3;
@@ -74,7 +81,7 @@ const MovieCardContainer = styled.div`
   margin-bottom: 4px;
   box-sizing: border-box;
   height: 240px;
-  background-color: white;
+  background-color: ${(props) => props.theme.background};
   &:hover {
     // background-color: #b2bec3;
     cursor: pointer;

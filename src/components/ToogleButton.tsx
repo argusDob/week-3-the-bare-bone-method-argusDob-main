@@ -3,25 +3,13 @@ import Toggle from "react-toggle";
 import "react-toggle/style.css";
 
 interface ToogleButtonProps {
-  onClick: (data: boolean) => void;
+  onToggle: () => void;
 }
 
-export default function ToogleButton({ onClick }: ToogleButtonProps) {
-  const [toggleState, setToggleState] = useState<boolean>(true);
-
-  function handleToggleChange() {
-    const updatedState = !toggleState;
-    setToggleState(updatedState);
-    onClick(updatedState);
-  }
-
+export default function ToogleButton({ onToggle }: ToogleButtonProps) {
   return (
     <label>
-      <Toggle
-        defaultChecked={toggleState}
-        onClick={handleToggleChange}
-      />
-      <h1>{String(toggleState)}</h1>
+      <Toggle defaultChecked={true} onClick={onToggle} />
       <span>Switch Theme</span>
     </label>
   );
